@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="https://i.328888.xyz/2023/04/14/ixDL13.jpeg"
+      type="image/png" />
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.css" />
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.7.9/vue.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/3.6.5/vue-router.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.3.6/axios.min.js"></script>
+    <title>1-axios介绍,简单请求示例(jsonplaceholder.typicode.com)</title>
+  </head>
+  <body>
+    <p>
+      axios是一个基于promise的网络请求库，可以用在浏览器和node.js中。它的原理是使用原生的XMLHttpRequest对象（浏览器）或http模块（node.js）来发送和接收数据，同时提供了一些高级功能，如拦截器、取消请求、转换数据等
+    </p>
+    <ul>
+      优点：
+      <li>基于promise，支持异步操作和错误处理</li>
+      <li>支持浏览器和node.js，具有跨平台能力</li>
+      <li>支持拦截器，可以在请求和响应之前进行一些处理</li>
+      <li>支持取消请求，可以中断不必要的请求</li>
+      <li>支持转换请求和响应数据，可以自定义数据格式</li>
+      <li>支持自动转换JSON数据，方便处理数据</li>
+      <li>客户端支持防御XSRF，提高安全性</li>
+    </ul>
+    <ul>
+      缺点：
+      <li>不支持jsonp，不能解决跨域问题</li>
+      <li>不支持IE9以下的浏览器，兼容性较差</li>
+      <li>不支持进度条，不能显示请求进度</li>
+      <li>不支持超时重试，需要自己封装</li>
+      <li>不支持文件上传进度，需要使用原生XHR对象</li>
+    </ul>
+    <ul>
+      <li>
+        通过axios(config)来发送任意类型的请求，其中config是一个对象，包含了url，method，data等请求配置项。
+      </li>
+      <li>
+        通过axios(url[,config])来发送GET请求，其中url是请求的地址，config是可选的配置对象。
+      </li>
+      <li>
+        通过axios.request(config)来发送任意类型的请求，等同于axios(config)。
+      </li>
+      <li>
+        通过axios.get(url[,config])来发送GET请求，其中url是请求的地址，config是可选的配置对象。
+      </li>
+      <li>
+        通过axios.delete(url[,config])来发送DELETE请求，其中url是请求的地址，config是可选的配置对象。
+      </li>
+      <li>
+        通过axios.head(url[,config])来发送HEAD请求，其中url是请求的地址，config是可选的配置对象。
+      </li>
+      <li>
+        通过axios.options(url[,config])来发送OPTIONS请求，其中url是请求的地址，config是可选的配置对象。
+      </li>
+      <li>
+        通过axios.post(url[,data[,config]])来发送POST请求，其中url是请求的地址，data是可选的请求体数据，config是可选的配置对象。
+      </li>
+      <li>
+        通过axios.put(url[,data[,config]])来发送PUT请求，其中url是请求的地址，data是可选的请求体数据，config是可选的配置对象。
+      </li>
+      <li>
+        通过axios.patch(url[,data[,config]])来发送PATCH请求，其中url是请求的地址，data是可选的请求体数据，config是可选的配置对象。
+      </li>
+    </ul>
+    <script>
+      // 发送不带参 GET请求
+      axios.get("https://jsonplaceholder.typicode.com/todos/1").then((res) => {
+        console.log(res); // 处理成功响应
+      });
+      // 发送带参 GET请求
+      axios
+        .get("https://jsonplaceholder.typicode.com/todos", {
+          prems: {
+            userId: 1,
+          },
+        })
+        .then((res) => {
+          console.log(res); // 处理成功响应
+        })
+        .catch((err) => {
+          console.log(err); // 处理错误响应
+        });
+      // 发送不带参 POST请求
+      axios.post("https://jsonplaceholder.typicode.com/posts").then((res) => {
+        console.log(res); // 处理成功响应
+      });
+      // 发送带参 POST请求
+      axios
+        .post("https://jsonplaceholder.typicode.com/posts", {
+          title: "foo",
+          body: "bar",
+          userId: 1,
+        })
+        .then((res) => {
+          // 处理成功响应
+          console.log(res);
+        })
+        .catch((err) => {
+          // 处理错误响应
+          console.log(err);
+        });
+      // 发送PUT请求
+      axios
+        .put("https://jsonplaceholder.typicode.com/posts/1", {
+          title: "foo",
+          body: "bar",
+          userId: 1,
+        })
+        .then((res) => {
+          console.log(res); // 处理成功响应
+        })
+        .catch((err) => {
+          console.log(err); // 处理错误响应
+        });
+      // 发送PATCH请求
+      axios
+        .patch("https://jsonplaceholder.typicode.com/posts/1", {
+          title: "foo",
+        })
+        .then((res) => {
+          console.log(res); // 处理成功响应
+        })
+        .catch((err) => {
+          console.log(err); // 处理错误响应
+        });
+    </script>
+    <p>
+      axios的全局配置是指可以对axios的默认行为进行修改，例如设置请求的基础URL，超时时间，请求头等。要进行全局配置，可以使用axios.defaults对象，例如：
+    </p>
+    <script>
+      // 设置基础URL
+      axios.defaults.baseURL = "https://some-domain.com/api/";
+      /* axios.defaults.baseURL = "http://jsonplaceholder.typicode.com";
+      axios.get("/posts").then((res) => {
+        console.log(res);
+      }); */
+
+      // 设置超时时间
+      axios.defaults.timeout = 1000;
+      // 设置请求头
+      axios.defaults.headers.common["Authorization"] = "Bearer token";
+      axios.defaults.headers.post["Content-Type"] = "application/json";
+      // 设置响应类型
+      axios.defaults.responseType = "json";
+      // 设置拦截器
+      axios.interceptors.request.use(
+        (config) => {
+          // 在发送请求之前做些什么
+          return config;
+        },
+        (error) => {
+          // 对请求错误做些什么
+          return Promise.reject(error);
+        }
+      );
+
+      axios.interceptors.response.use(
+        (response) => {
+          // 对响应数据做点什么
+          return response;
+        },
+        (error) => {
+          // 对响应错误做点什么
+          return Promise.reject(error);
+        }
+      );
+    </script>
+  </body>
+</html>
